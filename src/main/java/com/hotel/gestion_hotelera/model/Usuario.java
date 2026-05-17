@@ -24,8 +24,8 @@ public class Usuario {
     @Column(length = 20)
     private String telefono;
 
-    @Column(name = "contraseña", nullable = false, length = 255)
-    private String contraseña;
+    @Column(name = "contrasena", nullable = false, length = 255)
+    private String contrasena;
 
     @ManyToOne
     @JoinColumn(name = "id_rol")

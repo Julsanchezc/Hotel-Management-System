@@ -9,7 +9,7 @@ CREATE TABLE usuarios (
                           apellido VARCHAR(100) NOT NULL,
                           correo VARCHAR(150) UNIQUE,
                           telefono VARCHAR(20),
-                          contraseña VARCHAR(255) NOT NULL,
+                          contrasena VARCHAR(255) NOT NULL,
                           id_rol INTEGER,
                           FOREIGN KEY(id_rol) REFERENCES roles(id_rol)
 );
