@@ -7,7 +7,7 @@ Sistema backend desarrollado con **Spring Boot** y **PostgreSQL** para la admini
 ## 👥 Equipo
  
 - Omar Daniel Calvache Madroñero
-- Julia Santiago Sanchez Castro
+- Julian Santiago Sanchez Castro
 - Kelly Yhojanna Marin
 ---
  
