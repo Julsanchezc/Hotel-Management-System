@@ -1,0 +1,13 @@
+package com.hotel.gestion_hotelera.repository;
+
+import com.hotel.gestion_hotelera.model.Cliente;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+
+@Repository
+public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
+    Optional<Cliente> findByCorreo(String correo);
+    boolean existsByCorreo(String correo);
+}

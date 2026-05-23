@@ -1,0 +1,15 @@
+package com.hotel.gestion_hotelera.repository;
+
+import com.hotel.gestion_hotelera.model.Administrador;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public interface AdministradorRepository extends JpaRepository<Administrador, Integer> {
+    Optional<Administrador> findByCorreo(String correo);
+    List<Administrador> findByHotelId(Integer idHotel);
+    Optional<Administrador> findByUsuarioId(Integer idUsuario);
+}
