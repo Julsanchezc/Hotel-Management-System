@@ -31,6 +31,12 @@ src/
 ├── main/
 │   ├── java/com/hotel/gestion_hotelera/
 │   │   ├── GestionHoteleraApplication.java
+│   │   ├── controller/               ← Capa de API REST 
+│   │   │   ├── UsuarioController.java
+│   │   │   ├── RolController.java
+│   │   │   ├── HotelController.java
+│   │   │   ├── HabitacionController.java
+│   │   │   └── ClienteController.java
 │   │   ├── model/
 │   │   │   ├── Rol.java
 │   │   │   ├── Usuario.java
@@ -62,6 +68,8 @@ src/
 │   │       ├── ClienteService.java
 │   │       ├── EmpleadoService.java
 │   │       └── AdministradorService.java
+│   │       ├── HabitacionService.java       
+│   │       └── ReservaService.java          
 │   └── resources/
 │       ├── application.properties
 │       └── db/migration/
@@ -127,7 +135,8 @@ Cada servicio implementa las siguientes operaciones CRUD:
 | `ClienteService` | Cliente |
 | `EmpleadoService` | Empleado |
 | `AdministradorService` | Administrador |
-
+| `HabitacionService` | Habitación |
+| `ReservaService` | Reserva |
 ---
 
 ## ⚙️ Requisitos Previos
