@@ -31,12 +31,18 @@ src/
 ├── main/
 │   ├── java/com/hotel/gestion_hotelera/
 │   │   ├── GestionHoteleraApplication.java
-│   │   ├── controller/               ← Capa de API REST 
+│   │   ├── controller/
 │   │   │   ├── UsuarioController.java
 │   │   │   ├── RolController.java
 │   │   │   ├── HotelController.java
 │   │   │   ├── HabitacionController.java
-│   │   │   └── ClienteController.java
+│   │   │   ├── ClienteController.java
+│   │   │   ├── ReservaController.java
+│   │   │   ├── PagoController.java
+│   │   │   ├── FacturaController.java
+│   │   │   ├── ServicioController.java
+│   │   │   ├── EmpleadoController.java
+│   │   │   └── AdministradorController.java
 │   │   ├── model/
 │   │   │   ├── Rol.java
 │   │   │   ├── Usuario.java
@@ -46,9 +52,9 @@ src/
 │   │   │   ├── Pago.java
 │   │   │   ├── Factura.java
 │   │   │   ├── Servicio.java
-│   │   │   ├── Cliente.java          ← nueva
-│   │   │   ├── Empleado.java         ← nueva
-│   │   │   └── Administrador.java    ← nueva
+│   │   │   ├── Cliente.java
+│   │   │   ├── Empleado.java
+│   │   │   └── Administrador.java
 │   │   ├── repository/
 │   │   │   ├── RolRepository.java
 │   │   │   ├── UsuarioRepository.java
@@ -58,18 +64,21 @@ src/
 │   │   │   ├── PagoRepository.java
 │   │   │   ├── FacturaRepository.java
 │   │   │   ├── ServicioRepository.java
-│   │   │   ├── ClienteRepository.java       ← nuevo
-│   │   │   ├── EmpleadoRepository.java      ← nuevo
-│   │   │   └── AdministradorRepository.java ← nuevo
+│   │   │   ├── ClienteRepository.java
+│   │   │   ├── EmpleadoRepository.java
+│   │   │   └── AdministradorRepository.java
 │   │   └── service/
 │   │       ├── UsuarioService.java
 │   │       ├── RolService.java
 │   │       ├── HotelService.java
+│   │       ├── HabitacionService.java
+│   │       ├── ReservaService.java
+│   │       ├── PagoService.java
+│   │       ├── FacturaService.java
+│   │       ├── ServicioService.java
 │   │       ├── ClienteService.java
 │   │       ├── EmpleadoService.java
 │   │       └── AdministradorService.java
-│   │       ├── HabitacionService.java       
-│   │       └── ReservaService.java          
 │   └── resources/
 │       ├── application.properties
 │       └── db/migration/
@@ -132,11 +141,79 @@ Cada servicio implementa las siguientes operaciones CRUD:
 | `UsuarioService` | Usuario |
 | `RolService` | Rol |
 | `HotelService` | Hotel |
+| `HabitacionService` | Habitación |
+| `ReservaService` | Reserva |
+| `PagoService` | Pago |
+| `FacturaService` | Factura |
+| `ServicioService` | Servicio |
 | `ClienteService` | Cliente |
 | `EmpleadoService` | Empleado |
 | `AdministradorService` | Administrador |
-| `HabitacionService` | Habitación |
-| `ReservaService` | Reserva |
+
+---
+
+## 🌐 Endpoints REST
+
+Todos los endpoints siguen el patrón CRUD estándar. El servidor corre en `http://localhost:8081`.
+
+| Método | Endpoint | Descripción |
+|---|---|---|
+| GET | `/usuarios` | Listar todos los usuarios |
+| GET | `/usuarios/{id}` | Buscar usuario por ID |
+| POST | `/usuarios` | Crear usuario |
+| PUT | `/usuarios/{id}` | Actualizar usuario |
+| DELETE | `/usuarios/{id}` | Eliminar usuario |
+| GET | `/roles` | Listar todos los roles |
+| GET | `/roles/{id}` | Buscar rol por ID |
+| POST | `/roles` | Crear rol |
+| PUT | `/roles/{id}` | Actualizar rol |
+| DELETE | `/roles/{id}` | Eliminar rol |
+| GET | `/hoteles` | Listar todos los hoteles |
+| GET | `/hoteles/{id}` | Buscar hotel por ID |
+| POST | `/hoteles` | Crear hotel |
+| PUT | `/hoteles/{id}` | Actualizar hotel |
+| DELETE | `/hoteles/{id}` | Eliminar hotel |
+| GET | `/habitaciones` | Listar todas las habitaciones |
+| GET | `/habitaciones/{id}` | Buscar habitación por ID |
+| POST | `/habitaciones` | Crear habitación |
+| PUT | `/habitaciones/{id}` | Actualizar habitación |
+| DELETE | `/habitaciones/{id}` | Eliminar habitación |
+| GET | `/reservas` | Listar todas las reservas |
+| GET | `/reservas/{id}` | Buscar reserva por ID |
+| POST | `/reservas` | Crear reserva |
+| PUT | `/reservas/{id}` | Actualizar reserva |
+| DELETE | `/reservas/{id}` | Eliminar reserva |
+| GET | `/pagos` | Listar todos los pagos |
+| GET | `/pagos/{id}` | Buscar pago por ID |
+| POST | `/pagos` | Crear pago |
+| PUT | `/pagos/{id}` | Actualizar pago |
+| DELETE | `/pagos/{id}` | Eliminar pago |
+| GET | `/facturas` | Listar todas las facturas |
+| GET | `/facturas/{id}` | Buscar factura por ID |
+| POST | `/facturas` | Crear factura |
+| PUT | `/facturas/{id}` | Actualizar factura |
+| DELETE | `/facturas/{id}` | Eliminar factura |
+| GET | `/servicios` | Listar todos los servicios |
+| GET | `/servicios/{id}` | Buscar servicio por ID |
+| POST | `/servicios` | Crear servicio |
+| PUT | `/servicios/{id}` | Actualizar servicio |
+| DELETE | `/servicios/{id}` | Eliminar servicio |
+| GET | `/clientes` | Listar todos los clientes |
+| GET | `/clientes/{id}` | Buscar cliente por ID |
+| POST | `/clientes` | Crear cliente |
+| PUT | `/clientes/{id}` | Actualizar cliente |
+| DELETE | `/clientes/{id}` | Eliminar cliente |
+| GET | `/empleados` | Listar todos los empleados |
+| GET | `/empleados/{id}` | Buscar empleado por ID |
+| POST | `/empleados` | Crear empleado |
+| PUT | `/empleados/{id}` | Actualizar empleado |
+| DELETE | `/empleados/{id}` | Eliminar empleado |
+| GET | `/administradores` | Listar todos los administradores |
+| GET | `/administradores/{id}` | Buscar administrador por ID |
+| POST | `/administradores` | Crear administrador |
+| PUT | `/administradores/{id}` | Actualizar administrador |
+| DELETE | `/administradores/{id}` | Eliminar administrador |
+
 ---
 
 ## ⚙️ Requisitos Previos
