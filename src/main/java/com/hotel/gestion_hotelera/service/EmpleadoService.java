@@ -1,5 +1,6 @@
 package com.hotel.gestion_hotelera.service;
 
+import com.hotel.gestion_hotelera.exception.ResourceNotFoundException;
 import com.hotel.gestion_hotelera.model.Empleado;
 import com.hotel.gestion_hotelera.repository.EmpleadoRepository;
 import org.springframework.stereotype.Service;
@@ -7,6 +8,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Lógica de negocio y operaciones CRUD de empleados.
+ *
+ * <p>Las operaciones sobre un ID inexistente lanzan {@link ResourceNotFoundException}.</p>
+ */
 @Service
 public class EmpleadoService {
 
@@ -33,11 +39,11 @@ public class EmpleadoService {
 
     /**
      * Actualiza un empleado existente.
-     * Lanza IllegalArgumentException si el ID no existe.
+     * Lanza ResourceNotFoundException si el ID no existe.
      */
     public Empleado update(Integer id, Empleado datosActualizados) {
         Empleado existente = empleadoRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Empleado no encontrado con id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Empleado no encontrado con id: " + id));
 
         existente.setNombre(datosActualizados.getNombre());
         existente.setApellido(datosActualizados.getApellido());
@@ -56,7 +62,7 @@ public class EmpleadoService {
     /** Elimina un empleado por su ID */
     public void delete(Integer id) {
         if (!empleadoRepository.existsById(id)) {
-            throw new IllegalArgumentException("Empleado no encontrado con id: " + id);
+            throw new ResourceNotFoundException("Empleado no encontrado con id: " + id);
         }
         empleadoRepository.deleteById(id);
     }

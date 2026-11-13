@@ -1,5 +1,6 @@
 package com.hotel.gestion_hotelera.service;
 
+import com.hotel.gestion_hotelera.exception.ResourceNotFoundException;
 import com.hotel.gestion_hotelera.model.Servicio;
 import com.hotel.gestion_hotelera.repository.ServicioRepository;
 import org.springframework.stereotype.Service;
@@ -7,6 +8,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Lógica de negocio y operaciones CRUD de servicios adicionales.
+ *
+ * <p>Las operaciones sobre un ID inexistente lanzan {@link ResourceNotFoundException}.</p>
+ */
 @Service
 public class ServicioService {
 
@@ -30,7 +36,7 @@ public class ServicioService {
 
     public Servicio update(Integer id, Servicio datosActualizados) {
         Servicio existente = servicioRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Servicio no encontrado con id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Servicio no encontrado con id: " + id));
 
         existente.setNombre(datosActualizados.getNombre());
         existente.setDescripcion(datosActualizados.getDescripcion());
@@ -41,7 +47,7 @@ public class ServicioService {
 
     public void delete(Integer id) {
         if (!servicioRepository.existsById(id)) {
-            throw new IllegalArgumentException("Servicio no encontrado con id: " + id);
+            throw new ResourceNotFoundException("Servicio no encontrado con id: " + id);
         }
         servicioRepository.deleteById(id);
     }

@@ -1,5 +1,6 @@
 package com.hotel.gestion_hotelera.service;
 
+import com.hotel.gestion_hotelera.exception.ResourceNotFoundException;
 import com.hotel.gestion_hotelera.model.Rol;
 import com.hotel.gestion_hotelera.repository.RolRepository;
 import org.springframework.stereotype.Service;
@@ -7,6 +8,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Lógica de negocio y operaciones CRUD de roles.
+ *
+ * <p>Las operaciones sobre un ID inexistente lanzan {@link ResourceNotFoundException}.</p>
+ */
 @Service
 public class RolService {
 
@@ -33,11 +39,11 @@ public class RolService {
 
     /**
      * Actualiza un rol existente.
-     * Lanza IllegalArgumentException si el ID no existe.
+     * Lanza ResourceNotFoundException si el ID no existe.
      */
     public Rol update(Integer id, Rol datosActualizados) {
         Rol existente = rolRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Rol no encontrado con id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Rol no encontrado con id: " + id));
 
         existente.setNombre(datosActualizados.getNombre());
 
@@ -47,7 +53,7 @@ public class RolService {
     /** Elimina un rol por su ID */
     public void delete(Integer id) {
         if (!rolRepository.existsById(id)) {
-            throw new IllegalArgumentException("Rol no encontrado con id: " + id);
+            throw new ResourceNotFoundException("Rol no encontrado con id: " + id);
         }
         rolRepository.deleteById(id);
     }

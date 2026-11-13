@@ -1,5 +1,6 @@
 package com.hotel.gestion_hotelera.service;
 
+import com.hotel.gestion_hotelera.exception.ResourceNotFoundException;
 import com.hotel.gestion_hotelera.model.Factura;
 import com.hotel.gestion_hotelera.repository.FacturaRepository;
 import org.springframework.stereotype.Service;
@@ -7,6 +8,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Lógica de negocio y operaciones CRUD de facturas.
+ *
+ * <p>Las operaciones sobre un ID inexistente lanzan {@link ResourceNotFoundException}.</p>
+ */
 @Service
 public class FacturaService {
 
@@ -30,7 +36,7 @@ public class FacturaService {
 
     public Factura update(Integer id, Factura datosActualizados) {
         Factura existente = facturaRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Factura no encontrada con id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Factura no encontrada con id: " + id));
 
         existente.setFechaFactura(datosActualizados.getFechaFactura());
         existente.setTotal(datosActualizados.getTotal());
@@ -41,7 +47,7 @@ public class FacturaService {
 
     public void delete(Integer id) {
         if (!facturaRepository.existsById(id)) {
-            throw new IllegalArgumentException("Factura no encontrada con id: " + id);
+            throw new ResourceNotFoundException("Factura no encontrada con id: " + id);
         }
         facturaRepository.deleteById(id);
     }

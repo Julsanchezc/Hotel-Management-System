@@ -1,5 +1,6 @@
 package com.hotel.gestion_hotelera.service;
 
+import com.hotel.gestion_hotelera.exception.ResourceNotFoundException;
 import com.hotel.gestion_hotelera.model.Administrador;
 import com.hotel.gestion_hotelera.repository.AdministradorRepository;
 import org.springframework.stereotype.Service;
@@ -7,6 +8,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Lógica de negocio y operaciones CRUD de administradores.
+ *
+ * <p>Las operaciones sobre un ID inexistente lanzan {@link ResourceNotFoundException}.</p>
+ */
 @Service
 public class AdministradorService {
 
@@ -33,11 +39,11 @@ public class AdministradorService {
 
     /**
      * Actualiza un administrador existente.
-     * Lanza IllegalArgumentException si el ID no existe.
+     * Lanza ResourceNotFoundException si el ID no existe.
      */
     public Administrador update(Integer id, Administrador datosActualizados) {
         Administrador existente = administradorRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Administrador no encontrado con id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Administrador no encontrado con id: " + id));
 
         existente.setNombre(datosActualizados.getNombre());
         existente.setApellido(datosActualizados.getApellido());
@@ -55,7 +61,7 @@ public class AdministradorService {
     /** Elimina un administrador por su ID */
     public void delete(Integer id) {
         if (!administradorRepository.existsById(id)) {
-            throw new IllegalArgumentException("Administrador no encontrado con id: " + id);
+            throw new ResourceNotFoundException("Administrador no encontrado con id: " + id);
         }
         administradorRepository.deleteById(id);
     }

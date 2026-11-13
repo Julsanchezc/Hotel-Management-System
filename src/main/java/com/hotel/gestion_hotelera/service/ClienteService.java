@@ -1,5 +1,6 @@
 package com.hotel.gestion_hotelera.service;
 
+import com.hotel.gestion_hotelera.exception.ResourceNotFoundException;
 import com.hotel.gestion_hotelera.model.Cliente;
 import com.hotel.gestion_hotelera.repository.ClienteRepository;
 import org.springframework.stereotype.Service;
@@ -7,6 +8,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Lógica de negocio y operaciones CRUD de clientes.
+ *
+ * <p>Las operaciones sobre un ID inexistente lanzan {@link ResourceNotFoundException}.</p>
+ */
 @Service
 public class ClienteService {
 
@@ -33,11 +39,11 @@ public class ClienteService {
 
     /**
      * Actualiza un cliente existente.
-     * Lanza IllegalArgumentException si el ID no existe.
+     * Lanza ResourceNotFoundException si el ID no existe.
      */
     public Cliente update(Integer id, Cliente datosActualizados) {
         Cliente existente = clienteRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Cliente no encontrado con id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado con id: " + id));
 
         existente.setNombre(datosActualizados.getNombre());
         existente.setApellido(datosActualizados.getApellido());
@@ -53,7 +59,7 @@ public class ClienteService {
     /** Elimina un cliente por su ID */
     public void delete(Integer id) {
         if (!clienteRepository.existsById(id)) {
-            throw new IllegalArgumentException("Cliente no encontrado con id: " + id);
+            throw new ResourceNotFoundException("Cliente no encontrado con id: " + id);
         }
         clienteRepository.deleteById(id);
     }

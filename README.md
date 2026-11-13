@@ -1,13 +1,32 @@
-# 🏨 Sistema de Gestión Hotelera
+<p align="center">
+  <img src="docs/assets/banner.png" alt="Hotel Management System" width="100%">
+</p>
 
-🔗 **Repositorio:** https://github.com/Julsanchezc/Hotel-Management-System.git
+<p align="center">
+  <img src="https://img.shields.io/badge/Java-17-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java">
+  <img src="https://img.shields.io/badge/Spring%20Boot-3.4.5-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" alt="Spring Boot">
+  <img src="https://img.shields.io/badge/PostgreSQL-14+-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL">
+  <img src="https://img.shields.io/badge/Flyway-Migraciones-CC0200?style=for-the-badge&logo=flyway&logoColor=white" alt="Flyway">
+</p>
 
-Sistema backend desarrollado con **Spring Boot** y **PostgreSQL** para la administración integral de hoteles, incluyendo gestión de usuarios, habitaciones, reservas, pagos, facturación y servicios adicionales.
+# 🏨 Hotel Management System
+
+API REST desarrollada con **Spring Boot** y **PostgreSQL** para la administración integral de hoteles: usuarios y roles, habitaciones, reservas, pagos, facturación, servicios adicionales y personal.
+
+Proyecto del curso de **Spring Boot**.
+
+## ✨ Lo más destacado
+
+- 🌐 **55 endpoints REST** (CRUD completo sobre 11 entidades).
+- 🧱 **Arquitectura en capas**: `controller` → `service` → `repository` → `model`.
+- 🗄️ **12 tablas en PostgreSQL** con relaciones 1:1, 1:N y N:M.
+- 🔁 **Migraciones versionadas con Flyway**; Hibernate solo valida el esquema (`ddl-auto=validate`).
+- 🔐 **Credenciales por variables de entorno**, sin contraseñas en el repositorio.
 
 ## 👥 Equipo
 
 - Omar Daniel Calvache Madroñero
-- Julian Santiago Sanchez Castro
+- **Julián Santiago Sánchez Castro**
 - Kelly Yhojanna Marin
 
 ---
@@ -31,6 +50,9 @@ src/
 ├── main/
 │   ├── java/com/hotel/gestion_hotelera/
 │   │   ├── GestionHoteleraApplication.java
+│   │   ├── exception/
+│   │   │   ├── ResourceNotFoundException.java
+│   │   │   └── GlobalExceptionHandler.java
 │   │   ├── controller/
 │   │   │   ├── UsuarioController.java
 │   │   │   ├── RolController.java
@@ -244,10 +266,18 @@ CREATE DATABASE gestion_hotelera_db;
 
 ### 3. Configurar credenciales
 
-Abre `src/main/resources/application.properties` y ajusta tu contraseña:
+Las credenciales se leen de variables de entorno (no hay contraseñas en el repositorio). `DB_USER` es opcional y por defecto es `postgres`:
 
-```properties
-spring.datasource.password=${DB_PASSWORD:TU_CONTRASEÑA_AQUI}
+```powershell
+# PowerShell
+$env:DB_USER="postgres"
+$env:DB_PASSWORD="tu_contraseña"
+```
+
+```bash
+# Linux / macOS
+export DB_USER=postgres
+export DB_PASSWORD=tu_contraseña
 ```
 
 ### 4. Correr el proyecto
@@ -291,4 +321,6 @@ Flyway lleva el historial de migraciones en la tabla `flyway_schema_history` den
 
 - El proyecto usa `spring.jpa.hibernate.ddl-auto=validate`, lo que significa que Hibernate **no crea ni modifica tablas** — eso lo maneja exclusivamente Flyway.
 - Las credenciales de la base de datos se manejan mediante variables de entorno para evitar exponer contraseñas en el repositorio.
-- La versión de Spring Boot fue corregida de `4.0.6` (inexistente) a `3.4.5` (estable).
+- **Manejo de errores centralizado:** `GlobalExceptionHandler` (`@RestControllerAdvice`) convierte `ResourceNotFoundException` en un **404** con formato estándar *Problem Details* (RFC 9457). Por eso los controladores no necesitan `try/catch`.
+- **Códigos HTTP correctos:** `POST` responde **201 Created**, `DELETE` responde **204 No Content**, y buscar, actualizar o eliminar un ID inexistente responde **404 Not Found**.
+- **Inyección por constructor** en todos los controladores y servicios: dependencias `final`, más fáciles de probar.

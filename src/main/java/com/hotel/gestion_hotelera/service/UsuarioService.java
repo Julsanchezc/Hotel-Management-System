@@ -1,5 +1,6 @@
 package com.hotel.gestion_hotelera.service;
 
+import com.hotel.gestion_hotelera.exception.ResourceNotFoundException;
 import com.hotel.gestion_hotelera.model.Usuario;
 import com.hotel.gestion_hotelera.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
@@ -7,6 +8,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Lógica de negocio y operaciones CRUD de usuarios.
+ *
+ * <p>Las operaciones sobre un ID inexistente lanzan {@link ResourceNotFoundException}.</p>
+ */
 @Service
 public class UsuarioService {
 
@@ -33,11 +39,11 @@ public class UsuarioService {
 
     /**
      * Actualiza un usuario existente.
-     * Lanza IllegalArgumentException si el ID no existe.
+     * Lanza ResourceNotFoundException si el ID no existe.
      */
     public Usuario update(Integer id, Usuario datosActualizados) {
         Usuario existente = usuarioRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado con id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con id: " + id));
 
         existente.setNombre(datosActualizados.getNombre());
         existente.setApellido(datosActualizados.getApellido());
@@ -52,7 +58,7 @@ public class UsuarioService {
     /** Elimina un usuario por su ID */
     public void delete(Integer id) {
         if (!usuarioRepository.existsById(id)) {
-            throw new IllegalArgumentException("Usuario no encontrado con id: " + id);
+            throw new ResourceNotFoundException("Usuario no encontrado con id: " + id);
         }
         usuarioRepository.deleteById(id);
     }

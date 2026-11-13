@@ -1,17 +1,25 @@
 package com.hotel.gestion_hotelera.service;
 
+import com.hotel.gestion_hotelera.exception.ResourceNotFoundException;
 import com.hotel.gestion_hotelera.model.Reserva;
 import com.hotel.gestion_hotelera.repository.ReservaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Lógica de negocio y operaciones CRUD de reservas.
+ *
+ * <p>Las operaciones sobre un ID inexistente lanzan {@link ResourceNotFoundException}.</p>
+ */
 @Service
 public class ReservaService {
 
-    @Autowired
-    private ReservaRepository reservaRepository;
+    private final ReservaRepository reservaRepository;
+
+    public ReservaService(ReservaRepository reservaRepository) {
+        this.reservaRepository = reservaRepository;
+    }
 
     public List<Reserva> findAll() {
         return reservaRepository.findAll();
@@ -37,10 +45,13 @@ public class ReservaService {
                 reserva.setServicios(details.getServicios());
             }
             return reservaRepository.save(reserva);
-        }).orElseThrow(() -> new RuntimeException("Reserva no encontrada con id: " + id));
+        }).orElseThrow(() -> new ResourceNotFoundException("Reserva no encontrada con id: " + id));
     }
 
     public void delete(Integer id) {
+        if (!reservaRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Reserva no encontrada con id: " + id);
+        }
         reservaRepository.deleteById(id);
     }
 }
